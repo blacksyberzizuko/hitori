@@ -78,7 +78,7 @@ module.exports = naze = async (naze, m, chatUpdate, store) => {
 		const hari = moment.tz('Asia/Jakarta').locale('id').format('dddd');
 		const tanggal = moment.tz('Asia/Jakarta').locale('id').format('DD/MM/YYYY');
 		const jam = moment().tz('Asia/Jakarta').locale('id').format('HH:mm:ss');
-		const ucapanWaktu = jam < '05:00:00' ? 'Selamat Pagi 🌉' : jam < '11:00:00' ? 'Selamat Pagi 🌄' : jam < '15:00:00' ? 'Selamat Siang 🏙' : jam < '18:00:00' ? 'Selamat Sore 🌅' : jam < '19:00:00' ? 'Selamat Sore 🌃' : jam < '23:59:00' ? 'Selamat Malam 🌌' : 'Selamat Malam 🌌';
+		const ucapanWaktu = jam < '05:00:00' ? 'GOOD MORNING' : jam < '11:00:00' ? 'GOOD MORNING' : jam < '15:00:00' ? 'GOOD EVENING' : jam < '18:00:00' ? 'GOOD EVENING' : jam < '19:00:00' ? 'GOOD NIGHT' : jam < '23:59:00' ? 'GOOD NIGHT' : 'GOOD NIGHT';
 		
 		await LoadDataBase(naze, m);
 		
@@ -96,7 +96,7 @@ module.exports = naze = async (naze, m, chatUpdate, store) => {
 				remoteJid: '0@s.whatsapp.net',
 				participant: '0@s.whatsapp.net',
 				fromMe: false,
-				id: 'Naze'
+				id: 'Saku'
 			},
 			message: {
 				contactMessage: {
@@ -123,7 +123,7 @@ module.exports = naze = async (naze, m, chatUpdate, store) => {
 		// Auto Set Bio
 		if (settings.autobio) {
 			if (new Date() * 1 - 0 > 1000) {
-				await naze.updateProfileStatus(`${naze.user.name} | 🎯 Runtime : ${runtime(process.uptime())}`)
+				await naze.updateProfileStatus(`🧚‍♀️‖THIS IS QUEEN-SAKURA_MD | 🎯 Runtime : ${runtime(process.uptime())}`)
 			}
 		}
 		
@@ -149,8 +149,8 @@ module.exports = naze = async (naze, m, chatUpdate, store) => {
 				const mess = chatUpdate.messages[0].message.protocolMessage
 				if (store.messages && store.messages[m.chat] && store.messages[m.chat].array) {
 					const chats = store.messages[m.chat].array.find(a => a.id === mess.key.id);
-					chats.msg.contextInfo = { mentionedJid: [chats.key.participant], isForwarded: true, forwardingScore: 1, quotedMessage: { conversation: '*Anti Delete❗*'}, ...chats.key }
-					const pesan = chats.type === 'conversation' ? { extendedTextMessage: { text: chats.msg, contextInfo: { mentionedJid: [chats.key.participant], isForwarded: true, forwardingScore: 1, quotedMessage: { conversation: '*Anti Delete❗*'}, ...chats.key }}} : { [chats.type]: chats.msg }
+					chats.msg.contextInfo = { mentionedJid: [chats.key.participant], isForwarded: true, forwardingScore: 1, quotedMessage: { conversation: '*Anti Delete Massege❗*'}, ...chats.key }
+					const pesan = chats.type === 'conversation' ? { extendedTextMessage: { text: chats.msg, contextInfo: { mentionedJid: [chats.key.participant], isForwarded: true, forwardingScore: 1, quotedMessage: { conversation: '*Anti Delete Massege❗*'}, ...chats.key }}} : { [chats.type]: chats.msg }
 					await naze.relayMessage(m.chat, pesan, {})
 				}
 			}
@@ -161,7 +161,7 @@ module.exports = naze = async (naze, m, chatUpdate, store) => {
 					const isGcLink = new RegExp(`https://chat.whatsapp.com/${await naze.groupInviteCode(m.chat)}`, 'i').test(m.text);
 					if (isGcLink) return
 					await naze.sendMessage(m.chat, { delete: { remoteJid: m.chat, fromMe: false, id: m.id, participant: m.sender }})
-					await naze.relayMessage(m.chat, { extendedTextMessage: { text: `Terdeteksi @${m.sender.split('@')[0]} Mengirim Link Group\nMaaf Link Harus Di Hapus..`, contextInfo: { mentionedJid: [m.key.participant], isForwarded: true, forwardingScore: 1, quotedMessage: { conversation: '*Anti Link❗*'}, ...m.key }}}, {})
+					await naze.relayMessage(m.chat, { extendedTextMessage: { text: `Terdeteksi @${m.sender.split('@')[0]} Mengirim Link Group\nMaaf Link Harus Di Hapus..`, contextInfo: { mentionedJid: [m.key.participant], isForwarded: true, forwardingScore: 1, quotedMessage: { conversation: '*Anti Link Deactive❗*'}, ...m.key }}}, {})
 				}
 			}
 			
@@ -316,10 +316,10 @@ module.exports = naze = async (naze, m, chatUpdate, store) => {
 				let brd = game.tebakbom[m.sender].board;
 				if (game.tebakbom[m.sender].nyawa.length < 1) {
 					global.db.users[m.sender].limit -= 1
-					await m.reply(`*GAME TELAH BERAKHIR*\nKamu terkena bomb\n\n ${brd.join('')}\n\n*Terpilih :* ${game.tebakbom[m.sender].pick}\n_Pengurangan Limit : 1_`);
+					await m.reply(`*The game is over*\nYou get hit by a bomb\n\n ${brd.join('')}\n\n*Terpilih :* ${game.tebakbom[m.sender].pick}\n_ Limited : 1_`);
 					naze.sendMessage(m.chat, {react: {text: '😂', key: m.key}})
 					delete game.tebakbom[m.sender];
-				} else await m.reply(`*PILIH ANGKA*\n\nKamu terkena bomb\n ${brd.join('')}\n\nTerpilih: ${game.tebakbom[m.sender].pick}\nSisa nyawa: ${game.tebakbom[m.sender].nyawa}`);
+				} else await m.reply(`*PICK NUMBERS*\n\nYou get hit by a bomb\n ${brd.join('')}\n\nTerpilih: ${game.tebakbom[m.sender].pick}\nSisa nyawa: ${game.tebakbom[m.sender].nyawa}`);
 				return !0;
 			}
 			if (game.tebakbom[m.sender].petak[parseInt(body) - 1] === 0) {
@@ -347,17 +347,17 @@ module.exports = naze = async (naze, m, chatUpdate, store) => {
 			if (budy.toLowerCase() == jawaban) {
 				global.db.users[m.sender].limit += hasilLimit
 				global.db.users[m.sender].uang += hasilLimit * 1000
-				await m.reply(`🎮 Kuis Matematika  🎮\n\nJawaban Benar 🎉\nKamu Mendapat Limit *${hasilLimit}*\n\nIngin bermain lagi? kirim ${prefix}math mode`)
+				await m.reply(`🎮 Kuis Mathematics  🎮\n\nCorrect Answer 🎉\nYou get a limit *${hasilLimit}*\n\nWant to play again? send ${prefix}math mode`)
 				delete game.kuismath[m.sender.split('@')[0]]
-			} else m.reply('*Jawaban Salah!*')
+			} else m.reply('*Wrong Answer!*')
 		}
 		
 		// Menfes
 		if (!m.isGroup) {
 			if (game.menfes[m.sender] && m.key.remoteJid !== 'status@broadcast') {
 				if (!/^del(menfe(s|ss)|confe(s|ss))$/i.test(command)) {
-					m.msg.contextInfo = { isForwarded: true, forwardingScore: 1, quotedMessage: { conversation: `*Pesan Dari ${game.menfes[m.sender].nama ? game.menfes[m.sender].nama : 'Seseorang'}*`}, key: { remoteJid: '0@s.whatsapp.net', fromMe: false, participant: '0@s.whatsapp.net' }}
-					const pesan = m.type === 'conversation' ? { extendedTextMessage: { text: m.msg, contextInfo: { isForwarded: true, forwardingScore: 1, quotedMessage: { conversation: `*Pesan Dari ${game.menfes[m.sender].nama ? game.menfes[m.sender].nama : 'Seseorang'}*`}, key: { remoteJid: '0@s.whatsapp.net', fromMe: false, participant: '0@s.whatsapp.net' }}}} : { [m.type]: m.msg }
+					m.msg.contextInfo = { isForwarded: true, forwardingScore: 1, quotedMessage: { conversation: `*Message From ${game.menfes[m.sender].nama ? game.menfes[m.sender].nama : 'Seseorang'}*`}, key: { remoteJid: '0@s.whatsapp.net', fromMe: false, participant: '0@s.whatsapp.net' }}
+					const pesan = m.type === 'conversation' ? { extendedTextMessage: { text: m.msg, contextInfo: { isForwarded: true, forwardingScore: 1, quotedMessage: { conversation: `*Message From ${game.menfes[m.sender].nama ? game.menfes[m.sender].nama : 'Seseorang'}*`}, key: { remoteJid: '0@s.whatsapp.net', fromMe: false, participant: '0@s.whatsapp.net' }}}} : { [m.type]: m.msg }
 					await naze.relayMessage(game.menfes[m.sender].tujuan, pesan, {});
 				}
 			}
@@ -391,28 +391,28 @@ module.exports = naze = async (naze, m, chatUpdate, store) => {
 			// Owner Menu
 			case 'mode': {
 				if (!isCreator) return m.reply(mess.owner)
-				if (text === 'public') {
-					if (naze.public) return m.reply('*Sudah Aktif Sebelumnya*')
+				if (text === 'BOT PUBLIC MODE') {
+					if (naze.public) return m.reply('*Already Active Before*')
 					naze.public = true
-					m.reply('*Sukse Change To Public Usage*')
-				} else if (text === 'self') {
+					m.reply('*Succeed Change To Public Usage*')
+				} else if (text === 'BOT SELF MODE') {
 					naze.public = false
-					m.reply('*Sukse Change To Self Usage*')
+					m.reply('*Succeed Change To Self Usage*')
 				} else {
 					let buttonnya = [{
 						name: 'single_select',
 						buttonParamsJson: {
-							title: 'Pilih',
+							title: 'Change Mode',
 							sections: [{
-								title: 'Mode Bot',
+								title: 'Bot Runing Mode',
 								rows: [
-									{ title: 'Mode Public', description: 'Mengaktifkan Mode Public', id: 'mode public' },
-									{ title: 'Mode Self', description: 'Mengubah Ke Mode Self', id: 'mode self' },
+									{ title: 'Mode Public', description: 'Enabling Public Mode', id: 'mode public' },
+									{ title: 'Mode Self', description: 'Enabling Self Mode', id: 'mode self' },
 								]
 							}]
 						}
 					}]
-					await naze.sendButtonMsg(m.chat, 'Mode Bot', ucapanWaktu, 'Silahkan dipilih Owner🫡', null, buttonnya, m);
+					await naze.sendButtonMsg(m.chat, 'Mode Bot', ucapanWaktu, 'Please choose Owner', null, buttonnya, m);
 				}
 			}
 			break
@@ -420,12 +420,12 @@ module.exports = naze = async (naze, m, chatUpdate, store) => {
 				if (!isCreator) return m.reply(mess.owner)
 				if (!text) return m.reply('Mana text nya?')
 				naze.setStatus(q)
-				m.reply(`*Bio telah di ganti menjadi ${q}*`)
+				m.reply(`*Bio has been replaced with ${q}*`)
 			}
 			break
 			case 'setppbot': {
 				if (!isCreator) return m.reply(mess.owner)
-				if (!/image/.test(mime)) return m.reply(`Reply Image Dengan Caption ${prefix + command}`)
+				if (!/image/.test(mime)) return m.reply(`Reply Image With Caption ${prefix + command}`)
 				let media = await naze.downloadAndSaveMediaMessage(quoted, 'ppbot.jpeg')
 				if (text.length > 0) {
 					let { img } = await generateProfilePicture(media)
@@ -443,11 +443,11 @@ module.exports = naze = async (naze, m, chatUpdate, store) => {
 						}]
 					})
 					await fs.unlinkSync(media)
-					m.reply('Sukses')
+					m.reply('Success✅')
 				} else {
 					await naze.updateProfilePicture(botNumber, { url: media })
 					await fs.unlinkSync(media)
-					m.reply('Sukses')
+					m.reply('Success✅')
 				}
 			}
 			break
@@ -458,36 +458,36 @@ module.exports = naze = async (naze, m, chatUpdate, store) => {
 				const result = args[0].split('https://chat.whatsapp.com/')[1]
 				m.reply(mess.wait)
 				await naze.groupAcceptInvite(result).catch((res) => {
-					if (res.data == 400) return m.reply('Grup Tidak Di Temukan❗');
-					if (res.data == 401) return m.reply('Bot Di Kick Dari Grup Tersebut❗');
-					if (res.data == 409) return m.reply('Bot Sudah Join Di Grup Tersebut❗');
-					if (res.data == 410) return m.reply('Url Grup Telah Di Setel Ulang❗');
-					if (res.data == 500) return m.reply('Grup Penuh❗');
+					if (res.data == 400) return m.reply('Group Not Found❗');
+					if (res.data == 401) return m.reply('Bots on the Kick of the group❗');
+					if (res.data == 409) return m.reply('Bots have joined the group❗');
+					if (res.data == 410) return m.reply('The group URL has been reset❗');
+					if (res.data == 500) return m.reply('Full Group❗');
 				})
 			}
 			break
 			case 'leave': {
 				if (!isCreator) return m.reply(mess.owner)
-				await naze.groupLeave(m.chat).then(() => naze.sendFromOwner(global.owner, 'Sukses Keluar Dari Grup', m, { contextInfo: { isForwarded: true }}))
+				await naze.groupLeave(m.chat).then(() => naze.sendFromOwner(global.owner, 'Successful exit from the group', m, { contextInfo: { isForwarded: true }}))
 			}
 			break
 			case 'blokir': case 'block': {
 				if (!isCreator) return m.reply(mess.owner)
 				if (!text && !m.quoted) {
-					m.reply(`Contoh: ${prefix + command} 62xxx`)
+					m.reply(`🪄Example: ${prefix + command} 94xxx`)
 				} else {
 					const numbersOnly = m.isGroup ? (text ? text.replace(/\D/g, '') + '@s.whatsapp.net' : m.quoted?.sender) : m.chat
-					await naze.updateBlockStatus(numbersOnly, 'block').then((a) => m.reply(mess.done)).catch((err) => m.reply('Gagal!'))
+					await naze.updateBlockStatus(numbersOnly, 'block✅').then((a) => m.reply(mess.done)).catch((err) => m.reply('Fail!'))
 				}
 			}
 			break
 			case 'openblokir': case 'unblokir': case 'openblock': case 'unblock': {
 				if (!isCreator) return m.reply(mess.owner)
 				if (!text && !m.quoted) {
-					m.reply(`Contoh: ${prefix + command} 62xxx`)
+					m.reply(`Example: ${prefix + command} 94xxx`)
 				} else {
 					const numbersOnly = m.isGroup ? (text ? text.replace(/\D/g, '') + '@s.whatsapp.net' : m.quoted?.sender) : m.chat
-					await naze.updateBlockStatus(numbersOnly, 'unblock').then((a) => m.reply(mess.done)).catch((err) => m.reply('Gagal!'))
+					await naze.updateBlockStatus(numbersOnly, 'unblock✅').then((a) => m.reply(mess.done)).catch((err) => m.reply('Fail!'))
 				}
 			}
 			break
@@ -497,7 +497,7 @@ module.exports = naze = async (naze, m, chatUpdate, store) => {
 				let teks = `⬣ *LIST PERSONAL CHAT*\n\nTotal Chat : ${anu.length} Chat\n\n`
 				for (let i of anu) {
 					let nama = store.messages[i].array[0].pushName
-					teks += `⬡ *Nama :* ${nama}\n⬡ *User :* @${i.split('@')[0]}\n⬡ *Chat :* https://wa.me/${i.split('@')[0]}\n\n=====================\n\n`
+					teks += `*👻NAME :* ${nama}\n*👻User :* @${i.split('@')[0]}\n*👻Chat :* https://wa.me/${i.split('@')[0]}\n\n=====================\n\n`
 				}
 				naze.sendTextMentions(m.chat, teks, m)
 			}
@@ -508,7 +508,7 @@ module.exports = naze = async (naze, m, chatUpdate, store) => {
 				let teks = `⬣ *LIST GROUP CHAT*\n\nTotal Group : ${anu.length} Group\n\n`
 				for (let i of anu) {
 					let metadata = await naze.groupMetadata(i)
-					teks += `⬡ *Nama :* ${metadata.subject}\n⬡ *Admin :* ${metadata.owner ? `@${metadata.owner.split('@')[0]}` : '-' }\n⬡ *ID :* ${metadata.id}\n⬡ *Dibuat :* ${moment(metadata.creation * 1000).tz('Asia/Jakarta').format('DD/MM/YYYY HH:mm:ss')}\n⬡ *Member :* ${metadata.participants.length}\n\n=====================\n\n`
+					teks += `*🔉NAME :* ${metadata.subject}\n*🔉Admin :* ${metadata.owner ? `@${metadata.owner.split('@')[0]}` : '-' }\n*🔉ID :* ${metadata.id}\n*🔉Was :* ${moment(metadata.creation * 1000).tz('Asia/Jakarta').format('DD/MM/YYYY HH:mm:ss')}\n*🔉Member :* ${metadata.participants.length}\n\n=====================\n\n`
 				}
 				naze.sendTextMentions(m.chat, teks, m)
 			}
@@ -758,24 +758,25 @@ module.exports = naze = async (naze, m, chatUpdate, store) => {
 				if (!m.isAdmin) return m.reply(mess.admin)
 				if (!m.isBotAdmin) return m.reply(mess.botAdmin)
 				if (text === 'close') {
-					await naze.groupSettingUpdate(m.chat, 'announcement').then((res) => m.reply(`*Sukses Menutup Group*`))
+					await naze.groupSettingUpdate(m.chat, 'announcement').then((res) => m.reply(`*QUEEN-SAKURA_MD*\nSuccessfully Closed Group*`))
 				} else if (text === 'open') {
-					await naze.groupSettingUpdate(m.chat, 'not_announcement').then((res) => m.reply(`*Sukses Membuka Group*`))
+					await naze.groupSettingUpdate(m.chat, 'not_announcement').then((res) => m.reply(`*QUEEN-SAKURA_MD\n*Successfully Opened Group*`))
 				} else {
 					let buttonnya = [{
 						name: 'single_select',
 						buttonParamsJson: {
-							title: 'Pilih',
+							title: 'CHANGE-GROUP MODE',
 							sections: [{
 								title: 'Mode Group',
 								rows: [
-									{ title: 'Open Group', description: 'Membuka Group', id: '.grup open' },
-									{ title: 'Close Group', description: 'Menutup Group', id: '.grup close' },
+									{ title: 'Open Group', description: 'Opening Groups', id: '.grup open' },
+									{ title: 'Close Group', description: 'Closing Groups', id: '.grup close' },
 								]
 							}]
 						}
 					}]
-					await naze.sendButtonMsg(m.chat, 'Mode Group', ucapanWaktu, 'Silahkan dipilih 🎋', null, buttonnya, m);
+					naze.sendMessage(m.chat, {react: {text: '🔓', key: m.key}})
+					await naze.sendButtonMsg(m.chat, 'Mode Group', ucapanWaktu, 'GROUP-SETTINGS \nQUEEN-SAKURA_MD V2', null, buttonnya, m);
 				}
 			}
 			break
@@ -784,27 +785,28 @@ module.exports = naze = async (naze, m, chatUpdate, store) => {
 				if (!m.isAdmin) return m.reply(mess.admin)
 				if (!m.isBotAdmin) return m.reply(mess.botAdmin)
 				if (text === 'on') {
-					if (db.groups[m.chat].antilink) return m.reply('*Sudah Aktif Sebelumnya*')
+					if (db.groups[m.chat].antilink) return m.reply('*ANTILINK ON*')
 					db.groups[m.chat].antilink = true
-					m.reply('*Anti Link Aktif !*')
+					m.reply('*Anti Link Off !*')
 				} else if (text === 'off') {
 					db.groups[m.chat].antilink = false
-					m.reply('*Anti Link Tidak Aktif !*')
+					m.reply('*Anti Link OFF*')
 				} else {
 					let buttonnya = [{
 						name: 'single_select',
 						buttonParamsJson: {
-							title: 'Pilih',
+							title: 'CHANGE-MODE',
 							sections: [{
 								title: 'Anti Link',
 								rows: [
-									{ title: 'Anti Link Aktif', description: 'Mengaktifkan Antilink', id: '.antilink on' },
-									{ title: 'Anti Link Tidak Aktif', description: 'Mematikan Antilink', id: '.antilink off' },
+									{ title: 'Anti Link Active', description: 'ANTILINK ACTIVE NOW', id: '.antilink on' },
+									{ title: 'Anti Link Deactive', description: 'ANTILINK DEACTIVE NOW', id: '.antilink off' },
 								]
 							}]
 						}
 					}]
-					await naze.sendButtonMsg(m.chat, 'Mode Group', ucapanWaktu, 'Silahkan dipilih 🎋', null, buttonnya, m);
+					naze.sendMessage(m.chat, {react: {text: '🛡️', key: m.key}})
+					await naze.sendButtonMsg(m.chat, 'Mode Group', ucapanWaktu, 'QUEEN-SAKURA_MD \nCHANGE GROUP ANTLINK MODE', null, buttonnya, m);
 				}
 			}
 			break
@@ -813,56 +815,91 @@ module.exports = naze = async (naze, m, chatUpdate, store) => {
 				if (!m.isAdmin) return m.reply(mess.admin)
 				if (!m.isBotAdmin) return m.reply(mess.botAdmin)
 				if (text === 'on') {
-					if (db.groups[m.chat].antidelete) return m.reply('*Sudah Aktif Sebelumnya*')
-					db.groups[m.chat].antidelete = true
-					m.reply('*Anti Delete Aktif !*')
+					if (db.groups[m.chat].antilink) return m.reply('*ANTI Dilete ACTIVE*')
+					db.groups[m.chat].antilink = false
+					m.reply('*Anti Dilete Active*')
 				} else if (text === 'off') {
-					db.groups[m.chat].antidelete = false
-					m.reply('*Anti Delete Tidak Aktif !*')
+					db.groups[m.chat].antilink = false
+					m.reply('*Anti Dilete Inactive !*')
 				} else {
 					let buttonnya = [{
 						name: 'single_select',
 						buttonParamsJson: {
-							title: 'Pilih',
+							title: 'CHANGE-MODE',
 							sections: [{
 								title: 'Anti Delete',
 								rows: [
-									{ title: 'Anti Delete Aktif', description: 'Mengaktifkan Antidelete', id: '.antidelete on' },
-									{ title: 'Anti Delete Tidak Aktif', description: 'Mematikan Antidelete', id: '.antidelete off' },
+									{ title: 'ANTI-DELETE-ON', description: 'Enabling Antidelete', id: '.antidelete on' },
+									{ title: 'ANTI-DELETE-OFF', description: 'Anti Link Inactive', id: '.antidelete off' },
 								]
 							}]
 						}
 					}]
-					await naze.sendButtonMsg(m.chat, 'Mode Group', ucapanWaktu, 'Silahkan dipilih 🎋', null, buttonnya, m);
+					naze.sendMessage(m.chat, {react: {text: '🚫', key: m.key}})
+					await naze.sendButtonMsg(m.chat, 'Mode Group', ucapanWaktu, 'QUEEN-SAKURA_MD', null, buttonnya, m);
 				}
 			}
 			break
-			case 'welcome': {
+			case 'menu': {
 				if (!m.isGroup) return m.reply(mess.group)
-				if (!m.isAdmin) return m.reply(mess.admin)
+				if (!m.isBotAdmin) return m.reply(mess.botAdmin)
 				if (!m.isBotAdmin) return m.reply(mess.botAdmin)
 				if (text === 'on') {
-					if (db.groups[m.chat].welcome) return m.reply('*Sudah Aktif Sebelumnya*')
-					db.groups[m.chat].welcome = true
-					m.reply('*Welcome Aktif !*')
+					if (db.groups[m.chat].antilink) return m.reply('*command-menu*')
+					db.groups[m.chat].antilink = false
+					m.reply('*bot-menu*')
 				} else if (text === 'off') {
-					db.groups[m.chat].welcome = false
-					m.reply('*Welcome Tidak Aktif !*')
+					db.groups[m.chat].antilink = false
+					m.reply('*menu here!*')
 				} else {
 					let buttonnya = [{
 						name: 'single_select',
 						buttonParamsJson: {
-							title: 'Pilih',
+							title: 'MENU-HERE✅',
 							sections: [{
-								title: 'Welcome',
+								title: 'BOT-COMMAND_LIST🔉',
 								rows: [
-									{ title: 'Welcome Aktif', description: 'Mengaktifkan Welcome', id: '.welcome on' },
-									{ title: 'Welcome Tidak Aktif', description: 'Mematikan Welcome', id: '.welcome off' },
+									{ title: 'QUEEN-SAKURA_ALLMENU🪄', description: '*THIS IS QUEEN-SAKURA 2nd VERSION \n*DEVELOPED BY : DARK-HYPER*', id: '.allmenu2' },
+									{ title: 'BOT-OWNER_MENU👤', description: '*BOT CONTROAL MENU-HERE*', id: '.ownermenu' },
+									{ title: 'BOT-OWNER👤', description: '*MY OWNER NUMBER HERE*', id: '.owner' },
 								]
 							}]
 						}
 					}]
-					await naze.sendButtonMsg(m.chat, 'Mode Group', ucapanWaktu, 'Silahkan dipilih 🎋', null, buttonnya, m);
+					naze.sendMessage(m.chat, {react: {text: '🧚‍♀️', key: m.key}})
+					await naze.sendButtonMsg(m.chat, '*🧚‍♀️QUEEN-SAKURA_V2*', ucapanWaktu, '*╔════════════════════════╗*\n*║ @𝝩𐋏ا𐊖   ا𐊖 Ｑꓴꓰꓰ𝛮-𐊖𝝖𝞙ا𝑅𝝖_𝝡𝘋🧚‍♂️*\n*║ ᗪƐᐯƐᒪOᑭƐᗪ ᗷƳ : ᗪᗩᖇƘ-HƳᑭƐᖇ🧑‍💻*\n*║📜 Ｑꓴꓰꓰ𝛮-𐊖𝝖𝞙ꓴ𝑅𝝖-𝝡ꓰ𝛮ꓴ-𐋏ꓰ𝑅ꓰ📜*\n*╚════════════════════════╝*', null, buttonnya, m);
+				}
+			}
+			break
+			case 'welcome': {	
+			        if (!m.isGroup) return m.reply(mess.group)
+				if (!m.isAdmin) return m.reply(mess.admin)
+				if (!m.isBotAdmin) return m.reply(mess.botAdmin)
+				if (text === 'on') {
+					if (db.groups[m.chat].welcome) return m.reply('Previously Active')
+					db.groups[m.chat].welcome = true
+					m.reply('*Welcome Active!*')
+				} else if (text === 'off') {
+					db.groups[m.chat].welcome = false
+					m.reply('*Welcome INACTIVE*')
+				} else {
+					let buttonnya = [{
+						name: 'single_select',
+						buttonParamsJson: {
+							title: 'CHANGE-MODE',
+							sections: [{
+								title: 'Welcome',
+								rows: [
+									{ title: 'WELCOME-ON', description: 'Activating Welcome', id: '.welcome on' },
+									{ title: 'WELCOME-OFF', description: 'Dectivating Welcome', id: '.welcome off' },
+								]
+							}]
+						}
+					}]
+					naze.sendMessage(m.chat, {react: {text: '🙈', key: m.key}})
+					await naze.sendButtonMsg(m.chat, 'Mode Group', ucapanWaktu, '*╔════════════════════════╗*\n*║ @𝝩𐋏ا𐊖   ا𐊖 Ｑꓴꓰꓰ𝛮-𐊖𝝖𝞙ا𝑅𝝖_𝝡𝘋🧚‍♂️*\n*║ ᗪƐᐯƐᒪOᑭƐᗪ ᗷƳ : ᗪᗩᖇƘ-HƳᑭƐᖇ🧑‍💻*\n*║📜 Ｑꓴꓰꓰ𝛮-𐊖𝝖𝞙ꓴ𝑅𝝖📜*\n*╚════════════════════════╝*', null, buttonnya, m);
+				}
+			}
 				}
 			}
 			break
@@ -906,7 +943,7 @@ module.exports = naze = async (naze, m, chatUpdate, store) => {
 			case 'owner': {
 				await naze.sendContact(m.chat, owner, m);
 			}
-			break
+			break				
 			case 'profile': case 'cekme': case 'cek': {
 				const user = Object.keys(global.db.users)
 				const infoUser = global.db.users[m.sender]
@@ -1019,7 +1056,7 @@ module.exports = naze = async (naze, m, chatUpdate, store) => {
 				let latensi = speed() - timestamp
 				neww = performance.now()
 				oldd = performance.now()
-				respon = `Kecepatan Respon ${latensi.toFixed(4)} _Second_ \n ${oldd - neww} _miliseconds_\n\nRuntime : ${runtime(process.uptime())}\n\n💻 Info Server\nRAM: ${formatp(os.totalmem() - os.freemem())} / ${formatp(os.totalmem())}\n\n_NodeJS Memory Usaage_\n${Object.keys(used).map((key, _, arr) => `${key.padEnd(Math.max(...arr.map(v=>v.length)),' ')}: ${formatp(used[key])}`).join('\n')}\n\n${cpus[0] ? `_Total CPU Usage_\n${cpus[0].model.trim()} (${cpu.speed} MHZ)\n${Object.keys(cpu.times).map(type => `- *${(type + '*').padEnd(6)}: ${(100 * cpu.times[type] / cpu.total).toFixed(2)}%`).join('\n')}\n_CPU Core(s) Usage (${cpus.length} Core CPU)_\n${cpus.map((cpu, i) => `${i + 1}. ${cpu.model.trim()} (${cpu.speed} MHZ)\n${Object.keys(cpu.times).map(type => `- *${(type + '*').padEnd(6)}: ${(100 * cpu.times[type] / cpu.total).toFixed(2)}%`).join('\n')}`).join('\n\n')}` : ''}`.trim()
+				respon = `Bot responder speed ${latensi.toFixed(4)} _Second_ \n ${oldd - neww} _miliseconds_\n\nRuntime : ${runtime(process.uptime())}\n\n💻 Info Server\nRAM: ${formatp(os.totalmem() - os.freemem())} / ${formatp(os.totalmem())}\n\n_NodeJS Memory Usaage_\n${Object.keys(used).map((key, _, arr) => `${key.padEnd(Math.max(...arr.map(v=>v.length)),' ')}: ${formatp(used[key])}`).join('\n')}\n\n${cpus[0] ? `_Total CPU Usage_\n${cpus[0].model.trim()} (${cpu.speed} MHZ)\n${Object.keys(cpu.times).map(type => `- *${(type + '*').padEnd(6)}: ${(100 * cpu.times[type] / cpu.total).toFixed(2)}%`).join('\n')}\n_CPU Core(s) Usage (${cpus.length} Core CPU)_\n${cpus.map((cpu, i) => `${i + 1}. ${cpu.model.trim()} (${cpu.speed} MHZ)\n${Object.keys(cpu.times).map(type => `- *${(type + '*').padEnd(6)}: ${(100 * cpu.times[type] / cpu.total).toFixed(2)}%`).join('\n')}`).join('\n\n')}` : ''}`.trim()
 				m.reply(respon)
 			}
 			break
@@ -1472,12 +1509,12 @@ module.exports = naze = async (naze, m, chatUpdate, store) => {
 				m.reply(mess.wait)
 				const res = await yts.search(text);
 				const hasil = pickRandom(res.all)
-				const teksnya = `*📍Title:* ${hasil.title}\n*✏Description:* ${hasil.description}\n*🌟Channel:* ${hasil.author.name}\n*⏳Duration:* ${hasil.seconds} second (${hasil.timestamp})\n*🔎Source:* ${hasil.url}\n\n_note : jika ingin mendownload silahkan_\n_pilih ${prefix}ytmp3 url_video atau ${prefix}ytmp4 url_video_`;
+				const teksnya = `*YOUTUBE-DOWNLOAD*\n\n*📍Title:* ${hasil.title}\n*✏Description:* ${hasil.description}\n*🌟Channel:* ${hasil.author.name}\n*⏳Duration:* ${hasil.seconds} second (${hasil.timestamp})\n*🔎Source:* ${hasil.url}\n\n_note : follow this method\n_use ${prefix}ytmp3 url_video ${prefix}ytmp4 url_video_`;
 				await naze.sendMessage(m.chat, { image: { url: hasil.thumbnail }, caption: teksnya }, { quoted: m });
 			}
 			break
 			case 'pixiv': {
-				if (!text) return m.reply(`Example: ${prefix + command} hu tao`)
+				if (!text) return m.reply(`Example: ${prefix + command popoo`)
 				try {
 					let { pixivdl } = require('./lib/pixiv')
 					let res = await pixivdl(text)
@@ -1789,7 +1826,7 @@ module.exports = naze = async (naze, m, chatUpdate, store) => {
 			break
 			
 			// Menu
-			case 'allmenu': case 'menu': {
+			case 'allmenu': case 'alllist': {
 				let profile
 				try {
 					profile = await naze.profilePictureUrl(m.sender, 'image');
@@ -1799,24 +1836,19 @@ module.exports = naze = async (naze, m, chatUpdate, store) => {
 				const setv = pickRandom(global.listv)
 				const menunya = `
 ╭──❍「 *USER INFO* 」❍
-├ *Nama* : ${m.pushName ? m.pushName : 'Tanpa Nama'}
+├ *Name* : ${m.pushName ? m.pushName : 'Tanpa Nama'}
 ├ *Id* : @${m.sender.split('@')[0]}
 ├ *User* : ${isVip ? 'VIP' : isPremium ? 'PREMIUM' : 'FREE'}
 ├ *Limit* : ${isVip ? 'VIP' : global.db.users[m.sender].limit }
 ├ *Uang* : ${global.db.users[m.sender] ? global.db.users[m.sender].uang.toLocaleString('id-ID') : '0'}
 ╰─┬────❍
 ╭─┴─❍「 *BOT INFO* 」❍
-├ *Nama Bot* : ${global.botname}
+├ *Name Bot* : ${global.botname}
 ├ *Powered* : @${'0@s.whatsapp.net'.split('@')[0]}
 ├ *Owner* : @${global.owner[0].split('@')[0]}
 ├ *Mode* : ${naze.public ? 'Public' : 'Self'}
 ├ *Prefix* :「 MULTI-PREFIX 」
 ╰─┬────❍
-╭─┴─❍「 *ABOUT* 」❍
-├ *Tanggal* : ${tanggal}
-├ *Hari* : ${hari}
-├ *Jam* : ${jam} WIB
-╰──────❍
 ╭──❍「 *BOT* 」❍
 │${setv} ${prefix} profile
 │${setv} ${prefix} claim
@@ -1935,7 +1967,7 @@ module.exports = naze = async (naze, m, chatUpdate, store) => {
 │${setv} >
 │${setv} <
 ╰──────❍`
-				await naze.sendMessage(m.chat, {
+                                await naze.sendMessage(m.chat, {
 					document: global.fake.docs,
 					fileName: ucapanWaktu,
 					mimetype: pickRandom(global.fake.listfakedocs),
@@ -1966,7 +1998,71 @@ module.exports = naze = async (naze, m, chatUpdate, store) => {
 				}, { quoted: m })
 			}
 			break
-
+			case 'ownermenu': case 'ownmenu': {
+				let profile
+				try {
+					profile = await naze.profilePictureUrl(m.sender, 'image');
+				} catch (e) {
+					profile = global.fake.anonim
+				}
+				const setv = pickRandom(global.listv)
+				naze.sendMessage(m.chat, {react: {text: '👤', key: m.key}})
+				const menunya = `
+╭╼╼『 👤𝐎𝐖𝐍𝐄𝐑-𝐌𝐄𝐍𝐔 』╼▢
+╰╸╸╸╸╸╸╸╸╸╸╸╸╸╸╸╸▢
+▢ . profile  ( ᴜꜱᴇʀ ᴘʀᴏꜰɪʟᴇ ɪɴꜰᴏʀᴍ)
+▢ . request   (ʀᴇQᴜᴇꜱᴛ ᴛᴏ ᴅᴇᴠᴇʟᴏᴘᴇʀ)
+▢ . react   (ᴛᴏ ᴇᴍᴏᴊɪ)
+▢ . tagme   (ᴛᴀɢ ᴛᴏ ᴍᴇ)
+▢ . runtime   (ʙᴏᴛ ᴡᴏʀᴋɪɴɢ ᴛɪᴍᴇ)
+▢ . ping   (ʙᴏᴛ ꜱᴀᴠᴇʀ ꜱᴘᴇᴇᴅ)
+▢ . afk   (ʀᴇᴀꜱᴏɴ)
+▢ . rvo   (ᴛᴀɢ ᴡɪᴇᴡᴏɴᴇ  ɪᴍᴀɢᴇ)
+▢ . inspect   (ɢʀᴏᴜᴘ ᴜʀʟ)
+▢ . addmsg   (ᴀᴅᴅ ʙᴏᴛ ᴍᴀꜱꜱᴀɢᴇ)
+▢ . delmsg   (ʀᴇᴍᴏᴠᴇ ᴀᴅᴅ ᴍᴀꜱꜱᴀɢᴇ)
+▢ . getmsg   (ᴠɪᴇᴡ ᴍᴀꜱꜱᴀɢᴇ)
+▢ . listmsg   (ᴍᴀꜱꜱᴀɢᴇꜱ ʟɪꜱᴛ)
+▢ . q   (ʀᴇᴘʟʏ  ᴘᴇʀꜱᴏɴᴀʟ)
+▢ . menfes (94xxx|name)
+╭╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼▢
+╰╼╼╼╼╼╼╼╼╼╼╼╼╼╼▢
+╭╸╸╸╸╸╸╸╸╸╸╸╸╸╸╸╸╸╸╸▢
+╷ @ʙʏ Qᴜᴇᴇɴ-ꜱᴀᴋᴜʀᴀ_ᴍᴅ ᴠ2🧚‍♂️
+╷ ᴅᴇᴠᴇʟᴏᴘᴇᴅ ʙʏ ; ᴅᴀʀᴋ-ʜʏᴘᴇʀ
+╰╸╸╸╸╸╸╸╸╸╸╸╸╸╸╸╸╸╸╸▢`
+                                await naze.sendMessage(m.chat, {
+					document: global.fake.docs,
+					fileName: ucapanWaktu,
+					mimetype: pickRandom(global.fake.listfakedocs),
+					fileLength: '100000000000000',
+					pageCount: '999',
+					caption: menunya,
+					contextInfo: {
+						mentionedJid: [m.sender, '0@s.whatsapp.net', global.owner[0] + '@s.whatsapp.net'],
+						forwardingScore: 10,
+						isForwarded: true,
+						forwardedNewsletterMessageInfo: {
+							newsletterJid: global.my.ch,
+							serverMessageId: null,
+							newsletterName: 'QUEEN-SAKURA_HELP_SENTORE'
+						},
+						externalAdReply: {
+							title: global.author,
+							body: global.packname,
+							showAdAttribution: true,
+							thumbnailUrl: profile,
+							mediaType: 2,
+							previewType: 0,
+							renderLargerThumbnail: true,
+							mediaUrl: global.my.gh,
+							sourceUrl: global.my.gh,
+						}
+					}
+				}, { quoted: m })
+			}
+			break	
+				
 			default:
 			if (budy.startsWith('>')) {
 				if (!isCreator) return
